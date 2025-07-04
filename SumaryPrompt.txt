@@ -1,0 +1,31 @@
+
+Elabora um resumo técnico e académico, profundamente detalhado, rigoroso e informativo, sobre o seguinte tema:
+Tema: {theme}
+O resumo destina-se a estudantes e profissionais de IT com conhecimentos intermédios ou avançados. Utiliza português de Portugal, mantendo todos os termos técnicos em inglês devidamente explicados à primeira menção.
+Instruções:
+1. O resumo deve ser completo, abordando, sempre que aplicável:   
+- Definição, contexto e evolução histórica do tema
+- Conceitos fundamentais e terminologia essencial
+- Componentes, arquitetura, funcionamento e estrutura
+- Tecnologias, linguagens, frameworks e ferramentas relevantes
+- Exemplos práticos, casos de uso reais e aplicações típicas
+- Vantagens, limitações, riscos e desafios conhecidos
+- Comparações com outras tecnologias ou conceitos similares
+- Tendências atuais, inovações e perspetivas futuras
+- Principais standards, normas e protocolos associados
+- Conclusão ou síntese final
+2. Sempre que seja relevante e aplicável ao tema, inclui exemplos práticos como:
+- Blocos de código (ex: programação, scripting, automação, queries SQL, etc)
+- Exemplos de configuração (ex: ficheiros de configuração, comandos CLI, setups, pipelines)
+- Procedimentos passo a passo, comandos ou instruções para implementação prática
+- Casos de uso ou cenários reais
+3. Organiza a informação de forma estruturada e clara:
+- Usa listas numeradas e listas com traços sempre que adequado
+- Inclui tabelas comparativas quando fizer sentido, apresentadas em texto simples
+- Adiciona quadros resumo, glossários ou esquemas explicativos se forem úteis
+4. Estrutura o texto de modo lógico e sequencial, com secções bem identificadas através de títulos descritivos (por exemplo: Introdução, Conceitos Fundamentais, Aplicações, Exemplos Práticos, Configuração, Comparações, etc).
+5. O output deve ser otimizado para ser visualmente claro e apelativo num ficheiro {summaryFormat}. Todos os títulos, listas, tabelas, exemplos e blocos de código devem ser apresentados de forma adequada ao formato texto simples, sem explicitar regras de formatação na resposta. A estrutura e sequência das secções devem ser ajustadas ao tema, seguindo sempre um pensamento lógico e fácil de assimilar.
+6. O resumo deve ser exaustivo e sem limite de extensão, maximizando sempre a utilidade para aprendizagem, revisão e consulta.
+Importante:
+Gera o melhor resumo possível, completo, claro e útil, mostrando exemplos práticos de código, configuração ou comandos sempre que fizer sentido para o tema, e usando sempre um formato visualmente otimizado para {summaryFormat}.
+Inicia agora o resumo sobre {theme} conforme estas instruções.

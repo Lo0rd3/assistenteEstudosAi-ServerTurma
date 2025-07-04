@@ -1,0 +1,29 @@
+Tarefa:
+Gera um cheatsheet completo, útil e original sobre o tema: {theme}.
+Este cheatsheet deve ser criado do zero, sem copiar exemplos genéricos ou outros temas semelhantes. Deve ser conciso, prático, direto ao ponto e altamente relevante para estudantes e profissionais de IT, SysAdmin, DevOps e Cloud.
+Estrutura Esperada:
+Para cada item incluído, segue este formato:
+Categoria / Título da Ação (ex: "Listar Partilhas Disponíveis")
+    Comando: comando\_exemplo
+    Explicação: Breve descrição do que faz, quando usar, e contexto relevante.
+Regras Obrigatórias:
+1. Não copie nem repita exemplos de outros temas. O conteúdo deve ser exclusivo e completamente focado em {theme}.
+2. Evite conteúdo genérico ou introdutório. Não inclua explicações teóricas, definição de termos ou história. Vai direto aos comandos e usos práticos.
+3. Agrupe os comandos de forma lógica, como por exemplo:
+    Instalação e configuração
+    Operações frequentes
+    Diagnóstico e troubleshooting
+    Segurança e permissões
+    Casos específicos (ex: integração com Active Directory, uso em containers, etc.)
+4. Use comandos reais e testados, adequados quando relevante para ambientes Linux, windows, CLI ou scripts. Se houver variações por sistema, mencione-as de forma clara.
+5. Cada entrada deve seguir esta estrutura:
+    Título curto da tarefa ou ação
+    Comando real (ex: smbclient -L //host)
+    Explicação direta: O que faz, quando usar, e contexto relevante.
+6. Se útil, inclua observações adicionais ou dicas rápidas (ex: como resolver erros comuns, flags úteis, boas práticas).
+7. Evite comandos perigosos ou destrutivos (como rm -rf /) a menos que sejam necessários — e neste caso, inclua um aviso claro.
+8. Mantenha linguagem objetiva e técnica, sem floreios ou explicações vagas. O foco é servir como referência rápida.
+9. Evite duplicação ou redundância. Cada entrada deve cobrir um comando ou funcionalidade única.
+10. Se o tema permitir, inclua exemplos práticos de uso com variáveis reais (ex: IPs, paths, usuários), mas sempre mantendo a clareza.
+Formato do cheatsheet: {cheatsheetFormat}
+Nota final: Mantém consistência e clareza. O objetivo é que este cheatsheet sirva como referência rápida para quem trabalha com {theme}.
