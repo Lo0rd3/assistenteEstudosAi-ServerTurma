@@ -5,6 +5,10 @@ from utils import getApiKey
 from datetime import datetime
 import random
 
+def user_folder(folder_name):
+    return os.path.join(os.path.expanduser("~"), folder_name)
+
+
 def genFlashcards():
     genai.configure(api_key=getApiKey())
     model = genai.GenerativeModel('gemini-2.5-flash')
@@ -93,16 +97,20 @@ def genFlashcards():
         return 
     os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal após confirmação
     # Salvar em CSV 
-    if not os.path.exists("flashcards"):
-        os.makedirs("flashcards")
     now = datetime.now().strftime("%Y%m%d_%H%M")
-    filename = f"flashcards/{Theme.replace(' ', '_')}_flashcards_{now}.csv"
+    
+    flashcards_dir = user_folder("flashcards")
+    os.makedirs(flashcards_dir, exist_ok=True)
+    filename = os.path.join(flashcards_dir, f"{Theme.replace(' ', '_')}_flashcards_{now}.csv")
+
+
     with open(filename, "w", encoding="utf-8") as f:
         f.write("Pergunta;Resposta\n")
         for q, a in Flashcards:
             f.write(f"{q};{a}\n")
     os.system('cls' if os.name == 'nt' else 'clear')
     print(f"Flashcards guardados em: {filename}")
+    print("Os ficheiros serao eleminados do servidor em 3 dias.")
     print("\nPara importar no Anki, Quizlet ou RemNote, escolha importar CSV, separador ponto e vírgula.")
     return 
 
@@ -118,14 +126,18 @@ def genFlashcards():
 
 
 
+
 def interactFlashcards():
     os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal    
-    # Listar ficheiros disponíveis
-    if not os.path.exists("flashcards"):
-        os.makedirs("flashcards")
+    flashcards_dir = os.path.join(os.path.expanduser("~"), "flashcards")
 
-    files = [f for f in os.listdir("flashcards") if f.endswith(".csv")]
-        
+    # Listar ficheiros disponíveis
+    if not os.path.exists(flashcards_dir):
+        os.makedirs(flashcards_dir)
+    files = [f for f in os.listdir(flashcards_dir) if f.endswith(".csv")]
+
+
+    
     if not files:
         while True:
             print("Nenhum ficheiro de flashcards (.csv) encontrado.\n")
@@ -144,7 +156,7 @@ def interactFlashcards():
                 return
             else:
                 print("Opção invalida. Tente Novamente.")
-                   
+                
 
     print("\nFicheiros de flashcards disponíveis:")
     for idx, name in enumerate(files, start=1):
@@ -171,12 +183,13 @@ def interactFlashcards():
             fileToRun = files[int(choice)-1]
             break
         print("Opção inválida. Tenta novamente.")
-    
-    
 
 
-    
-    path = os.path.join("flashcards", fileToRun)
+
+
+
+    path = os.path.join(flashcards_dir, fileToRun)
+
     os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal
 
     try:
@@ -188,7 +201,7 @@ def interactFlashcards():
     except Exception as e:
         print(f"\nErro ao ler o ficheiro: {e}")
         return
-    
+
     if not cards:
         print("\nO ficheiro selecionado está vazio.")
         return
@@ -231,7 +244,7 @@ def interactFlashcards():
         print("=" * width)
         print(f"Resposta:\n\n\n{answer}\n\n\n")
         print("=" * width)
-              
+                
         if countCorrect:
             while True:
                 gotIt = input("Resposta correta? (s/n): ").strip().lower()
@@ -252,7 +265,7 @@ def interactFlashcards():
         print(f"Respostas corretas: {correct}/{answered}")
         percentage = (correct / answered) * 100
         print(f"Taxa de acerto: {percentage:.1f}%")
-    
+
         if correct == answered:
             print("\nExcelente! Acertaste todos os cartões!")
         elif percentage >= 70:

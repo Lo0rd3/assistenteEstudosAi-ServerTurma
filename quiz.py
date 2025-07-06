@@ -3,6 +3,8 @@ import google.generativeai as genai
 from utils import getApiKey
 from datetime import datetime
 
+def user_folder(folder_name):
+    return os.path.join(os.path.expanduser("~"), folder_name)
 
 
 def interactiveQuiz():
@@ -205,11 +207,13 @@ def interactiveQuiz():
 
 
 
-    if not os.path.exists("quizzes"):
-        os.makedirs("quizzes")
     
     now = datetime.now().strftime("%Y%m%d_%H%M")
-    Filename = f"quizzes/{Topic.replace(' ', '_')}_correction_{Difficulty}_{now}{Ext}"
+    quizzes_dir = user_folder("quizzes")
+    os.makedirs(quizzes_dir, exist_ok=True)
+    Filename = os.path.join(quizzes_dir, f"{Topic.replace(' ', '_')}_correction_{Difficulty}_{now}{Ext}")
     with open(Filename, "w", encoding="utf-8") as f:
         f.write(CorrectionText)
+    os.system('cls' if os.name == 'nt' else 'clear')
     print(f"Correção guardada em: {Filename}")
+    print("Os ficheiros serão eleminados do servidor em 3 dias.")

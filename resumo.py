@@ -2,6 +2,10 @@ from utils import getApiKey
 import os
 import google.generativeai as genai
 
+def user_folder(folder_name):
+    return os.path.join(os.path.expanduser("~"), folder_name)
+
+
 def generateSumary():
     os.system('cls' if os.name == 'nt' else 'clear') 
 
@@ -56,12 +60,16 @@ def generateSumary():
 
         if op == "1":
             os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal
-            if not os.path.exists("resumos"):
-                os.makedirs("resumos")
-            outputPath = os.path.join("resumos", theme.replace(" ", "_") + extension)
+            resumos_dir = user_folder("resumos")
+            os.makedirs(resumos_dir, exist_ok=True)
+            outputPath = os.path.join(resumos_dir,f"resumos"+ theme.replace(" ", "_") + extension)
+
+
+
             with open(outputPath, "w", encoding="utf-8") as f:
                 f.write(sumary)
             print(f"Resumo guardado em: {outputPath}")
+            print("Os ficheiros serão eleminados do servidor em 3 dias.")
             break
         elif op == "2":
             os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal

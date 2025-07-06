@@ -3,6 +3,12 @@ from utils import getApiKey
 import os
 import google.generativeai as genai
 
+
+def user_folder(folder_name):
+    return os.path.join(os.path.expanduser("~"), folder_name)
+
+
+
 def readPrompt():
     scriptDir = os.path.dirname(os.path.abspath(__file__))
     filePath = os.path.join(scriptDir, "CheatsheetPrompt.txt")
@@ -65,16 +71,16 @@ def generateCheatSheet():
         return
     prompt = promptBase.replace("{theme}", theme).replace("{cheatsheetFormat}", cheatsheetFormat)
 
-    while True:
-        print("\nConsultando Gemini...\n")
-        try:
-            response = model.generate_content(prompt)
-            cheatsheet = response.text
-        except Exception as e:
-            print(f"Erro ao gerar cheatsheet com o Gemini: {e}")
-            return
-        os.system('cls' if os.name == 'nt' else 'clear')
-        
+    
+    print("\nConsultando Gemini...\n")
+    try:
+        response = model.generate_content(prompt)
+        cheatsheet = response.text
+    except Exception as e:
+        print(f"Erro ao gerar cheatsheet com o Gemini: {e}")
+        return
+    os.system('cls' if os.name == 'nt' else 'clear')    
+    while True:    
         print("\n=== CHEATSHEET GERADO ===\n")
         print(cheatsheet)
         print("\nO que deseja fazer?")
@@ -85,12 +91,15 @@ def generateCheatSheet():
 
         if op == "1":
             os.system('cls' if os.name == 'nt' else 'clear')
-            if not os.path.exists("cheatsheets"):
-                os.makedirs("cheatsheets")
-            outputPath = os.path.join("cheatsheets", theme.replace(" ", "_") + extension)
+            cheatsheets_dir = user_folder("cheatsheets")
+            os.makedirs(cheatsheets_dir, exist_ok=True)
+            outputPath = os.path.join(cheatsheets_dir,f"cheat_sheet"+ theme.replace(" ", "_") + extension)
+
             with open(outputPath, "w", encoding="utf-8") as f:
                 f.write(cheatsheet)
             print(f"Cheatsheet guardado em: {outputPath}")
+            print("Os ficheiros serao eleminados do servidor em 3 dias.")
+
             break
         elif op == "2":
             os.system('cls' if os.name == 'nt' else 'clear')
