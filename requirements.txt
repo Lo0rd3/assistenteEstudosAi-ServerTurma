@@ -1,3 +1,6 @@
 google-generativeai
 python-dotenv
 flask
+flask-socketio
+eventlet
+pexpect

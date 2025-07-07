@@ -1,5 +1,5 @@
 from utils import getApiKey
-from resumo import generateSumary
+from summary import generateSummary
 from quiz import interactiveQuiz
 from flashcards import interactFlashcards
 from flashcards import genFlashcards
@@ -24,7 +24,7 @@ try:
         choice = input("Escolha uma opção: ").strip()
 
         if choice == "1":
-            generateSumary()
+            generateSummary()
         elif choice == "2":
             generateCheatSheet()
         elif choice == "3":

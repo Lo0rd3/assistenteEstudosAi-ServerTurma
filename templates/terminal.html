@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assistente de Estudos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background: #1e1e1e;
+        color: #e1e5ed;
+        font-family: 'Segoe UI', 'Arial', sans-serif;
+      }
+      .topbar {
+        padding: 10px 20px;
+        background: #11161b;
+        flex: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 1.05rem;
+      }
+      .username {
+        color: #8ac6ff;
+        font-weight: bold;
+        margin-left: 16px;
+      }
+      .center-container {
+        min-height: 100vh;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .terminal-window {
+        background: #21232b;
+        border-radius: 18px;
+        box-shadow: 0 4px 32px 0 #13131d44;
+        padding: 32px 32px 18px 32px;
+        min-width: 700px;
+        min-height: 520px;
+        max-width: 1100px;
+        width: 72vw;
+        max-height: 78vh;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #terminal {
+        min-height: 350px;
+        flex: 1 1 auto;
+        width: 100%;
+        border-radius: 12px;
+        margin-bottom: 18px;
+        background: #181a20;
+        box-shadow: 0 2px 8px #00000026;
+      }
+      #files {
+        background: #242732;
+        border-radius: 10px;
+        padding: 14px 20px;
+        margin-top: 0;
+        box-shadow: 0 1px 4px #0002;
+      }
+      #files h2 {
+        margin-top: 0;
+        font-size: 1.15rem;
+        color: #8ac6ff;
+        letter-spacing: 1px;
+      }
+      .file-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .file-list li {
+        margin: 6px 0;
+        font-size: 1rem;
+        color: #cfd8e6;
+      }
+      .file-list li a {
+        color: #51a5ff;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .file-list li a:hover {
+        text-decoration: underline;
+        color: #b6dcff;
+      }
+      .logout {
+        color: #f09ca3;
+        font-weight: bold;
+        text-decoration: none;
+        margin-left: 16px;
+        transition: color .2s;
+      }
+      .logout:hover {
+        text-decoration: underline;
+        color: #f15c6e;
+      }
+      @media (max-width: 900px) {
+        .terminal-window {
+          min-width: 0;
+          width: 99vw;
+          max-width: 99vw;
+          height: 95vh;
+          padding: 8px;
+        }
+        #terminal {
+          min-height: 180px;
+        }
+      }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+      <div>
+        Bem-vindo <span class="username">{{ username }}</span> ao Assistente de Estudos!
+      </div>
+      <a href="/logout" class="logout">Logout</a>
+    </div>
+    <div class="center-container">
+      <div class="terminal-window">
+        <div id="terminal"></div>
+        <div id="files">
+            <h2>Os seus ficheiros:</h2>
+            <div id="files-content">A carregar...</div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+    <script>
+        const term = new Terminal();
+        term.open(document.getElementById('terminal'));
+
+        const socket = io();
+        let buffer = "";
+
+        setInterval(() => {
+            socket.emit('get_output');
+        }, 500);
+
+        socket.on('output', (data) => {
+            if (data.output) {
+                term.write(data.output);
+            }
+        });
+
+        term.onKey(e => {
+            if (e.domEvent.key === "Enter") {
+                socket.emit('input', {input: buffer});
+                term.write('\r\n');
+                buffer = "";
+            } else if (e.domEvent.key === "Backspace") {
+                if (buffer.length > 0) {
+                    buffer = buffer.slice(0, -1);
+                    term.write('\b \b');
+                }
+            } else if (e.key.length === 1) {
+                buffer += e.key;
+                term.write(e.key);
+            }
+        });
+
+        // Files AJAX
+        function loadFiles() {
+            fetch('/files')
+                .then(res => {
+                    if (!res.ok) return Promise.reject();
+                    return res.json();
+                })
+                .then(data => {
+                    let html = '<ul class="file-list">';
+                    if (data.files.length === 0) {
+                        html += '<li>Nenhum ficheiro disponível.</li>';
+                    } else {
+                        for (const file of data.files) {
+                            html += `<li>[${file.folder}] <a href="/download/${file.folder}/${encodeURIComponent(file.fname)}" target="_blank">${file.fname}</a></li>`;
+                        }
+                    }
+                    html += '</ul>';
+                    document.getElementById('files-content').innerHTML = html;
+                })
+                .catch(() => {
+                    document.getElementById('files-content').innerHTML = 'Erro ao carregar ficheiros!';
+                });
+        }
+
+        loadFiles();
+        setInterval(loadFiles, 15000); 
+    </script>
+</body>
+</html>

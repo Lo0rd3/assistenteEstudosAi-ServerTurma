@@ -1,4 +1,4 @@
-# cheatsheet.py
+
 from utils import getApiKey
 import os
 import google.generativeai as genai

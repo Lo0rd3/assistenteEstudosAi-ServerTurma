@@ -177,7 +177,7 @@ def interactiveQuiz():
 
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
-        print("\nEm que formato deseja guardar o resumo?")
+        print("\nEm que formato deseja guardar a correção")
         print("[1] Markdown (.md)")
         print("[2] Texto simples (.txt)")
         print("[3] Cancelar")
